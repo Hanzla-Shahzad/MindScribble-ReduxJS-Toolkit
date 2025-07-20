@@ -1,12 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchTodos, deleteTodo, addTodo, editTodo } from "./asynThunk";
+import {
+  fetchTodos,
+  deleteTodo,
+  addTodo,
+  editTodo,
+} from "../thunks/postAsynThunk";
 
 const todoSlice = createSlice({
-  name: "todo",
+  name: "post",
   initialState: {
     data: [],
     isLoading: false,
     isError: false,
+    userDatas: [],
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
@@ -14,10 +20,10 @@ const todoSlice = createSlice({
       state.data = action.payload;
     });
     builder.addCase(fetchTodos.pending, (state) => {
-      state.isError = true;
+      state.isLoading = true;
     });
-    builder.addCase(fetchTodos.rejected, (state, action) => {
-      console.log("Error", action.payload);
+    builder.addCase(fetchTodos.rejected, (state) => {
+      // console.log("Error", action.payload);
       state.isError = true;
     });
     builder.addCase(deleteTodo.fulfilled, (state, action) => {
